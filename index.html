@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SwiftPadala</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="phone-shell">
+      <main id="app" class="app">
+        <section id="splash" class="screen splash-screen active" aria-label="Splash screen">
+          <div class="brand-mark">SP</div>
+          <h1>SwiftPadala</h1>
+          <p>Ride. Deliver. Pabili.</p>
+          <div class="loader" aria-label="Loading"></div>
+        </section>
+
+        <section id="auth" class="screen auth-screen" aria-label="Login screen">
+          <div class="screen-scroll centered-content">
+            <div class="brand-mark small">SP</div>
+            <h2>Welcome to SwiftPadala</h2>
+            <p class="muted">Book rides, deliveries, and pabili runs across the city.</p>
+
+            <form id="loginForm" class="form-card" novalidate>
+              <label for="phoneInput">Mobile number</label>
+              <div class="phone-field">
+                <span>+63</span>
+                <input id="phoneInput" type="tel" inputmode="numeric" maxlength="10" placeholder="912 345 6789" />
+              </div>
+              <p id="loginError" class="field-error" aria-live="polite"></p>
+              <button class="primary-btn" type="submit">Continue</button>
+            </form>
+
+            <div class="divider"><span>or continue with</span></div>
+            <button class="ghost-btn social-btn" type="button">G Google</button>
+            <button class="ghost-btn social-btn" type="button">f Facebook</button>
+          </div>
+        </section>
+
+        <section id="home" class="screen has-nav" aria-label="Home screen">
+          <div class="screen-scroll">
+            <header class="topbar">
+              <div>
+                <p class="eyebrow">Maayong adlaw</p>
+                <h2 id="greeting">Hi, Mika</h2>
+              </div>
+              <button class="icon-btn" type="button" data-toast="You have 2 new promo alerts">🔔</button>
+            </header>
+
+            <article class="location-card">
+              <div class="pin">📍</div>
+              <div>
+                <span>Current location</span>
+                <strong>Centrio Mall, Cagayan de Oro</strong>
+              </div>
+              <button type="button" class="mini-btn" data-toast="Location updated">Change</button>
+            </article>
+
+            <button class="search-card" type="button" data-screen="booking">
+              <span>🔎</span>
+              <span>Where to or what should we deliver?</span>
+            </button>
+
+            <section class="services-grid" aria-label="Services">
+              <button class="service-card" type="button" data-service="ride" data-screen="booking">
+                <span class="service-icon yellow">🏍️</span>
+                <strong>Motorcycle Ride</strong>
+                <small>Fast city trips</small>
+              </button>
+              <button class="service-card" type="button" data-service="parcel" data-screen="booking">
+                <span class="service-icon blue">📦</span>
+                <strong>Parcel Delivery</strong>
+                <small>Door to door</small>
+              </button>
+              <button class="service-card" type="button" data-service="pabili" data-screen="booking">
+                <span class="service-icon green">🛒</span>
+                <strong>Food / Pabili</strong>
+                <small>Buy and bring</small>
+              </button>
+              <button class="service-card" type="button" data-service="grocery" data-screen="booking">
+                <span class="service-icon pink">🥬</span>
+                <strong>Grocery</strong>
+                <small>Errands made easy</small>
+              </button>
+            </section>
+
+            <article class="promo-banner">
+              <div>
+                <span class="badge">Weekend deal</span>
+                <h3>Save ₱40 on your next padala</h3>
+                <p>Use code SWIFT40 before 9 PM today.</p>
+              </div>
+              <div class="promo-coin">₱</div>
+            </article>
+
+            <section>
+              <div class="section-head">
+                <h3>Recent activity</h3>
+                <button type="button" data-tab="orders">View all</button>
+              </div>
+              <div id="homeRecent" class="stack"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="booking" class="screen has-nav" aria-label="Booking screen">
+          <div class="screen-scroll">
+            <header class="topbar compact">
+              <button class="icon-btn" type="button" data-screen="home">←</button>
+              <h2>New booking</h2>
+              <button class="icon-btn" type="button" data-toast="Saved as draft">☆</button>
+            </header>
+
+            <form id="bookingForm" class="booking-form" novalidate>
+              <div class="map-preview" aria-label="Map preview">
+                <div class="road r1"></div>
+                <div class="road r2"></div>
+                <div class="map-marker pickup">P</div>
+                <div class="map-marker dropoff">D</div>
+              </div>
+
+              <div class="field-group">
+                <label for="pickup">Pickup</label>
+                <input id="pickup" name="pickup" value="Centrio Mall, Cagayan de Oro" />
+              </div>
+              <div class="field-group">
+                <label for="dropoff">Drop-off</label>
+                <input id="dropoff" name="dropoff" placeholder="e.g. SM City Cebu, Cebu City" />
+              </div>
+              <div class="field-group" id="itemFieldGroup">
+                <label for="itemDetails">Item details or notes</label>
+                <textarea id="itemDetails" name="itemDetails" rows="3" placeholder="e.g. documents, milk tea order, grocery list"></textarea>
+              </div>
+
+              <div class="selector-block">
+                <label>Service</label>
+                <div id="serviceSelector" class="chip-row"></div>
+              </div>
+
+              <article class="fare-card">
+                <div>
+                  <span>Estimated fare</span>
+                  <strong id="estimatedFare">₱0</strong>
+                </div>
+                <div>
+                  <span>Distance</span>
+                  <strong id="mockDistance">0.0 km</strong>
+                </div>
+                <div>
+                  <span>Pickup time</span>
+                  <strong id="pickupTime">5 min</strong>
+                </div>
+              </article>
+
+              <div class="selector-block">
+                <label>Payment method</label>
+                <div id="paymentSelector" class="chip-row">
+                  <button class="chip active" type="button" data-payment="Cash">Cash</button>
+                  <button class="chip" type="button" data-payment="Swift Wallet">Swift Wallet</button>
+                  <button class="chip" type="button" data-payment="Card">Card</button>
+                </div>
+              </div>
+
+              <p id="bookingError" class="field-error"></p>
+              <button class="primary-btn sticky-action" type="submit">Book now</button>
+            </form>
+          </div>
+        </section>
+
+        <section id="matching" class="screen" aria-label="Driver matching screen">
+          <div class="match-map">
+            <div class="road wide"></div>
+            <div class="road diagonal"></div>
+            <div class="road small-road"></div>
+            <div class="map-marker pickup large">P</div>
+            <div class="map-marker dropoff large">D</div>
+            <div class="rider-pulse">🏍️</div>
+          </div>
+          <div class="matching-panel">
+            <div class="loader small-loader"></div>
+            <h2>Finding nearby rider...</h2>
+            <p id="matchingDetail">Checking available partners near Cagayan de Oro.</p>
+            <button id="cancelBookingBtn" class="danger-btn" type="button">Cancel booking</button>
+          </div>
+        </section>
+
+        <section id="tracking" class="screen has-nav" aria-label="Active delivery tracking screen">
+          <div class="screen-scroll">
+            <header class="topbar compact">
+              <h2>Active delivery</h2>
+              <span class="status-pill">Live</span>
+            </header>
+
+            <article class="rider-card">
+              <div class="avatar">JR</div>
+              <div class="rider-info">
+                <strong id="riderName">Juan Reyes</strong>
+                <span id="riderMeta">⭐ 4.9 · Yamaha Mio · KAA 4821</span>
+              </div>
+              <button class="round-action" type="button" data-toast="Calling rider...">☎</button>
+              <button class="round-action" type="button" data-toast="Opening message thread...">💬</button>
+            </article>
+
+            <div class="arrival-card">
+              <span>Estimated arrival</span>
+              <strong id="eta">14 minutes</strong>
+              <p id="trackingRoute">Centrio Mall → Limketkai Center</p>
+            </div>
+
+            <section class="timeline-card">
+              <h3>Delivery status</h3>
+              <div id="timeline" class="timeline"></div>
+            </section>
+
+            <article class="summary-card">
+              <div><span>Service</span><strong id="summaryService">Parcel Delivery</strong></div>
+              <div><span>Distance</span><strong id="summaryDistance">4.8 km</strong></div>
+              <div><span>Payment</span><strong id="summaryPayment">Cash</strong></div>
+              <div><span>Total fare</span><strong id="summaryFare">₱98</strong></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="orders" class="screen has-nav" aria-label="Orders screen">
+          <div class="screen-scroll">
+            <header class="topbar">
+              <div>
+                <p class="eyebrow">History</p>
+                <h2>Orders & activity</h2>
+              </div>
+              <button id="clearOrdersBtn" class="mini-btn" type="button">Clear</button>
+            </header>
+            <div id="ordersList" class="stack"></div>
+          </div>
+        </section>
+
+        <section id="wallet" class="screen has-nav" aria-label="Wallet screen">
+          <div class="screen-scroll">
+            <header class="topbar">
+              <div>
+                <p class="eyebrow">Payments</p>
+                <h2>Swift Wallet</h2>
+              </div>
+              <button class="icon-btn" type="button" data-toast="Wallet refreshed">↻</button>
+            </header>
+
+            <article class="wallet-hero">
+              <span>Available balance</span>
+              <strong>₱1,284.50</strong>
+              <button class="light-btn" type="button" data-toast="Top up is visual only">Top up</button>
+            </article>
+
+            <section class="panel-list">
+              <h3>Payment methods</h3>
+              <div class="list-row"><span>💵 Cash</span><strong>Default</strong></div>
+              <div class="list-row"><span>💳 Debit card</span><strong>•••• 2308</strong></div>
+              <div class="list-row"><span>📱 GCash</span><strong>Connected</strong></div>
+            </section>
+
+            <section class="panel-list">
+              <h3>Promo codes</h3>
+              <div class="promo-row"><strong>SWIFT40</strong><span>₱40 off delivery</span></div>
+              <div class="promo-row"><strong>CDORIDE</strong><span>10% off rides</span></div>
+            </section>
+
+            <section class="panel-list">
+              <h3>Transactions</h3>
+              <div id="transactionList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="profile" class="screen has-nav" aria-label="Profile screen">
+          <div class="screen-scroll">
+            <header class="profile-hero">
+              <div class="avatar large">MM</div>
+              <div>
+                <h2>Mika Mercado</h2>
+                <p>+63 912 345 6789</p>
+              </div>
+            </header>
+
+            <section class="panel-list">
+              <h3>Saved addresses</h3>
+              <div class="list-row"><span>🏠 Home</span><strong>Macasandig, CDO</strong></div>
+              <div class="list-row"><span>🏢 Work</span><strong>IT Park, Cebu</strong></div>
+            </section>
+
+            <section class="panel-list">
+              <h3>Settings</h3>
+              <label class="toggle-row">
+                <span>Dark mode</span>
+                <input id="darkToggle" type="checkbox" />
+              </label>
+              <button class="list-button" type="button" data-toast="Help center opened">Help center</button>
+              <button class="list-button" type="button" data-toast="Notification settings opened">Notifications</button>
+              <button id="logoutBtn" class="list-button danger-text" type="button">Logout</button>
+            </section>
+          </div>
+        </section>
+      </main>
+
+      <nav id="bottomNav" class="bottom-nav" aria-label="Primary navigation">
+        <button class="nav-item active" type="button" data-tab="home"><span>⌂</span>Home</button>
+        <button class="nav-item" type="button" data-tab="orders"><span>▤</span>Orders</button>
+        <button class="nav-item" type="button" data-tab="wallet"><span>₱</span>Wallet</button>
+        <button class="nav-item" type="button" data-tab="profile"><span>☻</span>Profile</button>
+      </nav>
+
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
